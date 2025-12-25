@@ -24,7 +24,7 @@ python ./script/tokenization_jieba_nltk.py \
 ### Word Embedding Initialization
 ```bash
 python ./script/init_embeddings.py \
-  --vocab_json /data1/yinghao/slai/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
+  --vocab_json /path/to/your/project/data/processed_data/word_tok/vocab_en.json \
   --vec_path  pretrained/zh.vec \
   --out_dir   /path/to/your/project/SLAI_NLP/data/processed_data/word_tok \
   --out_name  emb_zh \
@@ -35,9 +35,9 @@ train RNN
 ```bash
 python RNN_train.py \
   --train_script script/train_rnn.py \
-  --data_dir /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok \
-  --vocab_zh /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
-  --vocab_en /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
+  --data_dir /path/to/your/project/SLAI_NLP/data/processed_data/word_tok \
+  --vocab_zh /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
+  --vocab_en /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
   --save_root runs/rnn_sweep \
   --epochs 25 --batch_size 512 --lr 3e-4 \
   --skip_existing
@@ -46,10 +46,10 @@ Greedy BLEU
 ```bash
 python RNN_inference.py \
   --save_root runs/rnn_sweep \
-  --data_dir /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok \
-  --vocab_zh /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
-  --vocab_en /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
-  --clean_test_jsonl /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/clean/test.jsonl \
+  --data_dir /path/to/your/project/SLAI_NLP/data/processed_data/word_tok \
+  --vocab_zh /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
+  --vocab_en /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
+  --clean_test_jsonl /path/to/your/project/SLAI_NLP/data/processed_data/clean/test.jsonl \
   --decode greedy \
   --device cuda \
   --skip_existing
@@ -58,10 +58,10 @@ beam BLEU
 ```bash
 python RNN_inference.py \
   --save_root runs/rnn_sweep \
-  --data_dir /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok \
-  --vocab_zh /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
-  --vocab_en /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
-  --clean_test_jsonl /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/clean/test.jsonl \
+  --data_dir /path/to/your/project/SLAI_NLP/data/processed_data/word_tok \
+  --vocab_zh /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
+  --vocab_en /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
+  --clean_test_jsonl /path/to/your/project/SLAI_NLP/data/processed_data/clean/test.jsonl \
   --decode beam --beam_size 5 \
   --device cuda \
   --skip_existing
@@ -71,9 +71,9 @@ norm exp
 ```bash
 python Transformer_train.py \
   --train_script scripts/train_transformer.py \
-  --data_dir /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok \
-  --vocab_zh /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
-  --vocab_en /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
+  --data_dir /path/to/your/project/SLAI_NLP/data/processed_data/word_tok \
+  --vocab_zh /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
+  --vocab_en /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
   --save_root runs/transformer_sweep/norm \
   --pos_embs absolute relative \
   --norms layernorm rmsnorm \
@@ -88,9 +88,9 @@ batch / lr
 ```bash
 python Transformer_train.py \
   --train_script scripts/train_transformer.py \
-  --data_dir /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok \
-  --vocab_zh /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
-  --vocab_en /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
+  --data_dir /path/to/your/project/SLAI_NLP/data/processed_data/word_tok \
+  --vocab_zh /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
+  --vocab_en /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
   --save_root runs/transformer_sweep/hparam \
   --pos_embs absolute \
   --norms layernorm \
@@ -105,9 +105,9 @@ small/base/large-ish
 ```bash
 python Transformer_train.py \
   --train_script scripts/train_transformer.py \
-  --data_dir /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok \
-  --vocab_zh /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
-  --vocab_en /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
+  --data_dir /path/to/your/project/SLAI_NLP/data/processed_data/word_tok \
+  --vocab_zh /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
+  --vocab_en /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
   --save_root runs/transformer_sweep/scale \
   --pos_embs absolute \
   --norms layernorm \
@@ -122,10 +122,10 @@ BLEU：greedy
 ```bash
 python Transformer_inference.py \
   --save_root runs/transformer_sweep/scale \
-  --data_dir /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok \
-  --vocab_zh /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
-  --vocab_en /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
-  --clean_test_jsonl /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/clean/test.jsonl \
+  --data_dir /path/to/your/project/SLAI_NLP/data/processed_data/word_tok \
+  --vocab_zh /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_zh.json \
+  --vocab_en /path/to/your/project/SLAI_NLP/data/processed_data/word_tok/vocab_en.json \
+  --clean_test_jsonl /path/to/your/project/SLAI_NLP/data/processed_data/clean/test.jsonl \
   --decode greedy \
   --device cuda \
   --skip_existing
@@ -135,7 +135,7 @@ t5-small/base
 ```bash
 python T5_train.py \
   --train_script scripts/finetune_t5.py \
-  --clean_dir /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/clean \
+  --clean_dir /path/to/your/project/SLAI_NLP/data/processed_data/clean \
   --save_root runs/t5_sweep \
   --models t5-small t5-base \
   --batch_sizes 8 16 \
@@ -150,7 +150,7 @@ BLEU:greedy
 ```bash
 python T5_inference.py \
   --save_root runs/t5_sweep \
-  --clean_test_jsonl /mnt/afs/250010023/lyh_code/slai/SLAI_NLP/data/processed_data/clean/test.jsonl \
+  --clean_test_jsonl /path/to/your/project/SLAI_NLP/data/processed_data/clean/test.jsonl \
   --decode greedy \
   --device cuda \
   --skip_existing
