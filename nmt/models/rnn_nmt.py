@@ -49,7 +49,9 @@ class Encoder(nn.Module):
         emb = self.emb(src_ids)  # [B,S,E]
         packed = pack_padded_sequence(emb, src_lens.cpu(), batch_first=True, enforce_sorted=False)
         out_packed, h = self.rnn(packed)
-        out, _ = pad_packed_sequence(out_packed, batch_first=True)  # [B,S,H]
+        # out, _ = pad_packed_sequence(out_packed, batch_first=True)  # [B,S,H]
+        out, _ = pad_packed_sequence(out_packed, batch_first=True, total_length=src_ids.size(1))  # [B,S,H]
+
         return out, h
 
 

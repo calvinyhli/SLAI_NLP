@@ -96,13 +96,36 @@ def main():
 
     collator = DataCollatorForSeq2Seq(tokenizer, model=model)
 
+    # def compute_metrics(eval_pred):
+    #     if sacrebleu is None:
+    #         return {}
+    #     preds, labels = eval_pred
+    #     preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
+    #     labels = [[tokenizer.decode(l, skip_special_tokens=True)] for l in labels]
+    #     bleu = sacrebleu.corpus_bleu(preds, labels).score
+    #     return {"bleu": bleu}
+
     def compute_metrics(eval_pred):
         if sacrebleu is None:
             return {}
         preds, labels = eval_pred
-        preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
-        labels = [[tokenizer.decode(l, skip_special_tokens=True)] for l in labels]
-        bleu = sacrebleu.corpus_bleu(preds, labels).score
+
+        # 1) preds 可能是 tuple（例如含 logits），取第一个
+        if isinstance(preds, tuple):
+            preds = preds[0]
+
+        # 2) labels 里有 -100（mask），decode 前先替换掉
+        # labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+        labels = [[(t if t != -100 else tokenizer.pad_token_id) for t in seq] for seq in labels]
+
+        # 3) 批量 decode
+        preds_text = tokenizer.batch_decode(preds, skip_special_tokens=True)
+        labels_text = tokenizer.batch_decode(labels, skip_special_tokens=True)
+
+        # 4) sacrebleu 需要 references 是 list[list[str]]
+        references = [[x] for x in labels_text]
+
+        bleu = sacrebleu.corpus_bleu(preds_text, references).score
         return {"bleu": bleu}
 
     training_args = Seq2SeqTrainingArguments(
@@ -112,7 +135,8 @@ def main():
         per_device_eval_batch_size=args.batch_size,
         num_train_epochs=args.epochs,
         predict_with_generate=True,
-        evaluation_strategy="epoch",
+        # evaluation_strategy="epoch",
+        eval_strategy="epoch",
         save_strategy="epoch",
         logging_strategy="steps",
         logging_steps=100,

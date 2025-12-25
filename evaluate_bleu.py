@@ -55,13 +55,11 @@ def compute_bleu(
     tokenize: str,
     lowercase: bool,
     force: bool,
-) -> Tuple[float, str, str]:
+) -> Tuple[float, Optional[str], str]:
     try:
         import sacrebleu
     except ImportError as e:
-        raise ImportError(
-            "sacrebleu is not installed. Please run: pip install sacrebleu"
-        ) from e
+        raise ImportError("sacrebleu is not installed. Please run: pip install sacrebleu") from e
 
     bleu = sacrebleu.corpus_bleu(
         hyp,
@@ -71,8 +69,19 @@ def compute_bleu(
         force=force,
     )
 
-    score = float(bleu.score)
-    signature = bleu.signature
+    # score (stable)
+    score = float(getattr(bleu, "score", bleu))
+
+    # signature compatibility across versions
+    signature = None
+    if hasattr(bleu, "signature"):
+        signature = bleu.signature
+    elif hasattr(bleu, "get_signature"):
+        try:
+            signature = bleu.get_signature()
+        except Exception:
+            signature = None
+
     full_str = str(bleu)
     return score, signature, full_str
 
