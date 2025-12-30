@@ -1,5 +1,14 @@
 # SLAI_NLP
 NLP_Final_Project: Machine Translation between Chinese and English
+
+## Checkpoints (Stored on Baidu Netdisk)
+
+The model checkpoints are not stored in this repository to keep the size manageable. You can download the files from Baidu Netdisk.
+
+### Download Link:
+- **Baidu Netdisk**: [Checkpoints Download here](https://pan.baidu.com/s/1y1COH7yYgA35GCp5bNK1CA?pwd=ycu6)
+- **Extraction Code**: `ycu6`
+
 ## Data Preprocess
 ### Data Cleaning
 ```bash
